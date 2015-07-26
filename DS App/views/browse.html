@@ -1,0 +1,63 @@
+<div id="browse" data-role="view" data-title="Browse Movies" data-model="APP.models" data-show="APP.models.browse.show">
+    
+    <!-- data-layout="main" -->
+    <div data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+            <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
+            <a data-role="button" href="#criteria" data-rel="modalview" data-align="right" data-icon="search"></a>
+        </div>
+    </div>
+    
+    <div data-role="modalview" id="criteria" style="width: 90%" data-model="APP.models">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span>Search Criteria</span>
+            </div>
+        </div>
+
+        <ul data-role="listview" data-style="inset">
+            <li>
+                <label for="title">Movie Title</label>
+                <input id="title" type="text" class="k-textbox" data-bind="value: browse.title" placeholder="">
+            </li>
+            <li>
+                <label for="yearFrom">From Year</label>
+                <input id="yearFrom" type="text" class="k-textbox" data-bind="value: browse.yearFrom" placeholder="">
+            </li>
+            <li>
+                <label for="yearTo">To Year</label>
+                <input id="yearTo" type="text" class="k-textbox" data-bind="value: browse.yearTo" placeholder="">
+            </li>
+            <li>
+                <label for="type">Movie Type</label>
+                <select id="type" data-bind="value: browse.type" data-role="dropdownlist">
+                    <option value="">All Types</option>
+                    <option value="ds_AcDsmpaMovNew">New Release</option>
+                    <option value="ds_AcDsmpaMovStd">Standard</option>
+                    <option value="ds_AcDsmpaMovCls">Classic</option>
+                    <option value="ds_AcDsmpaMovBox">Boxset</option>
+                    <option value="ds_AcDsmpaMovSer">Series</option>
+                </select>
+            </li>
+        </ul>
+
+        <button data-bind="click: browse.searchMovies" class="add-button" data-role="button">Search</button>
+        <button data-bind="click: browse.close" class="close-button" data-role="button">Close</button>
+    </div>
+    
+    <ul data-role="listview" data-source="APP.models.browse.data" data-template="movies-template"></ul>
+
+    <script type="text/x-kendo-template" id="movies-template">
+    	<a class="km-listview-link" href="views/detail.html?##obj=#: dMovieObj #">
+            <span class="movie-title">#: cMovieTitle # (#: iMovieYear #)</span><br/>
+            <span class="movie-detail">
+                #: iAgeRestriction ##: cAgeReason #,
+                #: iRuntime # min.
+                #: cMovieTypeLabel #
+            </span>
+        </a>
+    </script>
+    
+</div>
+

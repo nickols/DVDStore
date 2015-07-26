@@ -1,0 +1,32 @@
+<div data-role="view" data-title="Movie Details" data-layout="back" data-model="APP.models"
+     data-transition="slide" data-source="APP.models.browse.data" data-reload="true" 
+     data-show="APP.models.detail.show" data-hide="APP.models.detail.hide">
+
+    <!-- Just dunno how to display the currentMovie fields ...
+        <span data-bind="text: cMovieTitle"></span><br/>
+        <span data-bind="text: data.cMovieTitle"></span><br/>
+        <span data-bind="text: browse.data.cMovieTitle"></span><br/>
+        <span data-bind="text: currentMovie.cMovieTitle"></span><br/>
+    
+    <p>
+        You are logged in as <span data-bind="text: user.name"></span>.<br/>
+        Your last login was on <span data-bind="text: user.lastLogin"></span><br/>
+	    Current selected movie title <span data-bind="text: currentMovie.cMovieTitle"></span><br/>        
+    </p>
+	-->
+
+    <ul data-role="listview" data-source="APP.models.browse.data" data-template="movie-detail"></ul>
+
+    <script type="text/x-kendo-template" id="movie-detail">
+    	<p class="movie-detail">
+            <span class="movie-title">#: cMovieTitle # (#: iMovieYear #)</span> <br/>
+            <span>Age Restriction: #: iAgeRestriction # #: cAgeReason #</span> <br/>
+            <span>Runtime: #: iRuntime # min.</span> <br/>
+            <span>Movie Type: #: cMovieTypeLabel #</span>
+            <p class="movie-poster">
+            	<img src="image/noposter.png">
+            </p>
+        </p>
+    </script>
+
+</div>

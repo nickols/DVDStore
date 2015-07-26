@@ -1,3 +1,57 @@
-<div data-role="view" data-title="Home" data-layout="main" data-model="APP.models.home">
-  <h1 data-bind="html: title"></h1>
+<div data-role="view" data-title="MIP DVD Store" data-layout="main" data-model="APP.models">
+    
+    <ul class="form-content" data-role="listview">
+        <!--
+        <li>
+            <h1 data-bind="html: home.title"></h1>
+        </li>
+        <li>
+            <label for="user">Account Number:
+                <input type="text" id="user" data-bind="value: user.name">
+            </label>
+        </li>
+        <li>
+            <label for="account">Account Nmber:
+                <input type="text" id="account" data-bind="value: account.accountNumber">
+            </label>
+        </li>
+        <li style="text-align: center;">
+            <img class="loginlogo" src="image/loginlogo.png" width="50%"/>
+        </li>
+		-->
+        <li>
+            <img class="promotion" src="image/promotion.jpg" />
+        </li>
+        <li>
+            <label for="points">Available Points:
+                <input type="text" id="points" data-bind="value: account.pointsText">
+            </label>
+        </li>
+        <li>
+            <label for="rentals">Previous Rentals:
+                <input type="text" id="rentals" data-bind="value: account.rentals">
+            </label>
+        </li>
+    </ul>
+    
+    <h3>Rentals Due</h3>
+    <ul class="form-content" data-role="listview">
+        <li>
+            <label for="due1">The Matrix (1999)
+                <input type="text" id="due1" value="31/07/2015 12:00" />
+            </label>
+        </li>
+        <li>
+            <label for="due2">The Matrix (1999)
+                <input type="text" id="due2" value="31/07/2015 12:00" />
+            </label>
+        </li>
+    </ul>
+
+    <div data-role="footer">
+        <p>
+            You are logged in as <span data-bind="text: user.name"></span>.
+            <br/> Your last login was on <span data-bind="text: user.lastLogin"></span>
+        </p>
+    </div>
 </div>

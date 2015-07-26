@@ -1,1 +1,43 @@
-.km-drawer-button:before, .km-drawer-button:after  { content: "\E077"; }
+.km-drawer-button:before,
+.km-drawer-button:after {
+    content: "\E077";
+}
+
+.applogo {
+    max-width: 100%;
+    height: auto;
+    text-align: center;
+}
+.promotion {
+    width: 100%;
+    height: auto;
+}
+
+.movie-title {
+	font-weight: bold;
+}
+.movie-detail {
+    font-size: smaller;
+}
+.movie-detail .movie-title {
+    font-size: large;
+}
+.movie-poster {
+    text-align: center;
+}
+.movie-poster IMG {
+    width: 90%;
+    height: auto;
+}
+
+#criteria .km-button {
+    display: block;
+    text-align: center;
+    margin: 0.4em auto 0.6em auto;
+    width: 90%;
+    font-size: 1em;
+}
+.km-flat .add-button {
+    background: green;
+    color: white;
+}

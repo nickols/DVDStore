@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta charset="utf-8" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
     <link href="styles/main.css" rel="stylesheet" />
-
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
-
     <script src="scripts/app.js"></script>
-
+    <!-- <script src="scripts/detail.js"></script> -->
 </head>
+
 <body>
- 
-  <div data-role="layout" data-id="main">
-    <div data-role="header">
-      <div data-role="navbar">
-        <span data-role="view-title"></span>
-        <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
-      </div>
+    <div data-role="layout" data-id="main">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+                <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
+            </div>
+        </div>
+        <!-- application views will be rendered here -->
     </div>
-
-    <!-- application views will be rendered here -->
     
-  </div>
-
-  <!-- application drawer and contents -->
-  <div data-role="drawer" id="appDrawer" style="width: 270px" data-title="Navigation">
-    <div data-role="header">
-      <div data-role="navbar">
-        <span data-role="view-title"></span>
-      </div>
+    <div data-role="layout" data-id="back">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+        <!-- application views will be rendered here -->
+        <div data-role="footer">
+            <div data-role="navbar">
+                <a data-role="button" data-align="left" data-icon="rewind" data-click="APP.back">Back</a>
+            </div>
+        </div>
     </div>
-    <ul data-role="listview">
-      <li>
-        <a href="views/home.html">Home</a>
-      </li>
-      <li>
-        <a href="views/settings.html">Settings</a>
-      </li>
-      <li>
-        <a href="views/contacts.html">Contacts</a>
-      </li>
-    </ul>
-  </div>       
-
+    
+    <!-- application drawer and contents -->
+    <div data-role="drawer" id="appDrawer" style="width: 270px" data-title="Menu">
+        <div data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+        <ul data-role="listview">
+            <li><a href="views/home.html" data-icon="home">Home</a></li>
+			<li><a href="views/browse.html" data-icon="search">Browse Movies</a></li>
+            <!--
+            <li><a href="views/settings.html">Settings</a></li>
+            <li><a href="views/contacts.html">Contacts</a></li>
+            -->
+        </ul>
+    </div>
 </body>
+
 </html>
