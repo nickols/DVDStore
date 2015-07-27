@@ -1,0 +1,31 @@
+<div data-role="view" data-title="Profile" data-layout="main" data-model="APP.models">
+    <!-- <h1 data-bind="html: profile.title"></h1> -->
+
+    <ul class="form-content" data-role="listview">
+        <li>
+            <label for="firstname">First Name:
+                <input type="text" id="firstname" data-bind="value: user.firstname">
+            </label>
+        </li>
+        <li>
+            <label for="lastname">Last Name:
+                <input type="text" id="lastname" data-bind="value: user.lastname">
+            </label>
+        </li>
+        <li>
+            <label for="email">Email Address:
+                <input type="email" id="email" data-bind="value: user.email">
+            </label>
+        </li>
+        <li>
+            <label for="birthday">Birthday:
+                <input type="text" id="birthday" data-bind="value: user.birthday">
+            </label>
+        </li>
+    </ul>
+
+	<div class="wide">
+    	<button class="wide" data-role="button" data-icon="lock" data-click="APP.confirmLogout">Log out</button>
+    </div>
+
+</div>

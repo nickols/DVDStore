@@ -13,7 +13,7 @@
                 lastname: 'Nickols',
                 email: 'cornen@mip.co.za',
                 birthday: '04/08/1979',
-                session: 'user:guest|guest',
+                session: 'user:mip|mip',
                 lastLogin: '15/07/2015 12:50',
                 // Calculated fields
                 name: function () {
@@ -22,13 +22,18 @@
             },
             
             account: {
-                fromDate: '04/03/2006',
                 accountNumber: 'NIC097',
+                fromDate: '04/03/2006',
+				status: 'Active',                
                 points: 420,
-                rentals: 17,
+                rentalsPoints: 10,
+                rentalsCash: 7,
                 // Calculated fields
                 pointsText: function () {
                     return this.get("points") + " points";
+                },
+                rentals: function() {
+                    return this.get("rentalsPoints") + this.get("rentalsCash");
                 }
             },
             
@@ -79,10 +84,10 @@
                     window.APP.models.browse.data.filter([]);
                 }
             },
-            
+
             detail: {
                 title: 'Movie Details',
-                
+
                 show: function() {
                     // Pull the movie obj number from the query string
                     var movieData =  window.APP.models.browse.data;
@@ -100,26 +105,62 @@
                    window.APP.models.browse.data.filter([]);
                 }
             },
+            
+            profile: {
+                title: 'Profile'
+            },
+
+            register: {
+                title: 'Register'
+            },
+
+            login: {
+                title: 'Login'
+            },
+
+            accounts: {
+                title: 'Account'
+            },
+
+            transactions: {
+                title: 'Transactions'
+            },
+
+            rentals: {
+                title: 'Rentals'
+            },
+
+            prices: {
+                title: 'Prices'
+            },
 
             settings: {
                 title: 'Settings'
-            },
-            
-            contacts: {
-                title: 'Contacts',
-                ds: new kendo.data.DataSource({
-                    data: [{id: 1, name: 'Bob'}, {id: 2, name: 'Mary'}, {id: 3, name: 'John'}]
-                }),
-                alert: function (e) {
-                    alert(e.data.name);
-                }
             }
         },
 
         // General Functions
         back: function() {
             app.navigate("#:back");
+        },
+        
+        confirmLogout: function() {
+            navigator.notification.confirm('Are you sure you want to log out?', APP.logout, "Confirm Logout" );
+        },
+
+        logout: function(pButton) {
+            if (pButton > 1) return;
+            
+            var d = new Date();
+            var n = d.toLocaleString();
+            console.log("DateString:",n);
+
+            window.APP.models.user.session = '';
+            window.APP.models.user.lastLogin = n;
+
+            app.navigate("views/login.html");
         }
+        
     };
 
     // this function is called by Cordova when the application is loaded by the device
@@ -136,7 +177,7 @@
             skin: 'flat',
 
             // the application needs to know which view to load first
-            initial: 'views/home.html'
+            initial: (window.APP.models.user.session == '' ? 'views/login.html' : 'views/home.html')
         });
 
     }, false);

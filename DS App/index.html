@@ -4,13 +4,12 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
-    <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
-    <link href="styles/main.css" rel="stylesheet" />
+    <link rel="stylesheet" href="kendo/styles/kendo.mobile.all.min.css" />
+    <link rel="stylesheet" href="styles/main.css" />
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
     <script src="scripts/app.js"></script>
-    <!-- <script src="scripts/detail.js"></script> -->
 </head>
 
 <body>
@@ -28,6 +27,7 @@
         <div data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title"></span>
+                <a data-role="button" data-click="APP.back" data-align="left" data-icon="rewind"></a>
             </div>
         </div>
         <!-- application views will be rendered here -->
@@ -39,18 +39,20 @@
     </div>
     
     <!-- application drawer and contents -->
-    <div data-role="drawer" id="appDrawer" style="width: 270px" data-title="Menu">
+    <div data-role="drawer" id="appDrawer"  data-title="Menu">
         <div data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title"></span>
             </div>
         </div>
         <ul data-role="listview">
-            <li><a href="views/home.html" data-icon="home">Home</a></li>
-			<li><a href="views/browse.html" data-icon="search">Browse Movies</a></li>
+            <li><a href="views/home.html"    data-icon="home">    Home</a></li>
+            <li><a href="views/profile.html" data-icon="profile"> Profile</a></li>
+			<li><a href="views/browse.html"  data-icon="movies">  Browse Movies</a></li>
+            <li><a href="views/account.html" data-icon="book">    Account</a></li>
             <!--
+            <li><a href="views/rentals.html" data-icon="organize">Rentals</a></li>
             <li><a href="views/settings.html">Settings</a></li>
-            <li><a href="views/contacts.html">Contacts</a></li>
             -->
         </ul>
     </div>

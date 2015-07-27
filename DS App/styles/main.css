@@ -1,6 +1,22 @@
 .km-drawer-button:before,
 .km-drawer-button:after {
-    content: "\E077";
+    content: "\e077";
+}
+.km-movies:before,
+.km-movies:after {
+    content: "\e09e";
+}
+.km-book:before,
+.km-book:after {
+    content: "\e086";
+}
+.km-lock:before,
+.km-lock:after {
+    content: "\e0ff";
+}
+.km-profile:before,
+.km-profile:after {
+    content: "\e319";
 }
 
 .applogo {
@@ -30,7 +46,7 @@
     height: auto;
 }
 
-#criteria .km-button {
+.wide .km-button {
     display: block;
     text-align: center;
     margin: 0.4em auto 0.6em auto;

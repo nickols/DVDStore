@@ -41,9 +41,10 @@
                 </select>
             </li>
         </ul>
-
-        <button data-bind="click: browse.searchMovies" class="add-button" data-role="button">Search</button>
-        <button data-bind="click: browse.close" class="close-button" data-role="button">Close</button>
+		<div class="wide">
+            <button class="wide" data-role="button" class="add-button"   data-bind="click: browse.searchMovies">Search</button>
+            <button class="wide" data-role="button" class="close-button" data-bind="click: browse.close">Close</button>
+        </div>
     </div>
     
     <ul data-role="listview" data-source="APP.models.browse.data" data-template="movies-template"></ul>

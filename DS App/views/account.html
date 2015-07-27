@@ -1,0 +1,46 @@
+<div id="account" data-role="view" data-title="Account" data-layout="main" data-model="APP.models">
+    <!-- <h1 data-bind="html: account.title"></h1> -->
+
+    <ul class="form-content" data-role="listview">
+        <li>
+            <label for="number">Account Number:
+                <input type="text" id="number" data-bind="value: account.accountNumber">
+            </label>
+        </li>
+        <li>
+            <label for="status">Current Status:
+                <input type="text" id="status" data-bind="value: account.status">
+            </label>
+        </li>
+        <li>
+            <label for="opened">Opened on:
+                <input type="text" id="opened" data-bind="value: account.fromDate">
+            </label>
+        </li>
+        <li>
+            <label for="points">Available Points:
+                <input type="text" id="points" data-bind="value: account.pointsText">
+            </label>
+        </li>
+        <li>
+            <label for="rentals">Total Rentals:
+                <input type="text" id="rentals" data-bind="value: account.rentals">
+            </label>
+        </li>
+        <li>
+            <label for="rentalsPoints">Point Rentals:
+                <input type="text" id="rentalsPoints" data-bind="value: account.rentalsPoints">
+            </label>
+        </li>
+        <li>
+            <label for="rentalsCash">Cash Rentals:
+                <input type="text" id="rentalsCash" data-bind="value: account.rentalsCash">
+            </label>
+        </li>
+    </ul>
+
+    <div class="wide">
+    	<button class="wide" data-role="button" data-icon="book"     href="views/transactions.html">Transactions</button>
+    	<button class="wide" data-role="button" data-icon="organize" href="views/rentals.html">Rentals</button>
+    </div>
+</div>
