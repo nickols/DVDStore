@@ -6,6 +6,7 @@
 
     // create an object to store the models for each view
     window.APP = {
+
         models: {
             // DataModel for the whole application
             user: {
@@ -45,18 +46,25 @@
             },
             
             browse: {
-                data: new kendo.data.DataSource({
-                    transport: {
+                data: new kendo.data.DataSource({}),
+/*                  transport: {
                         read: {
-                            url: "mockmovies.js",
+                            url: "http://trn.coretech.mip.co.za/cgi-bin/wspd_cgi.sh/WService=wsb_000trn/rest.w",
                             type: "get",
-                            dataType: "json"
+                            dataType: "json",
+                            data: {
+                                rqAuthentication: 'user:mip|mip',
+                                rqDataMode: 'var/jason',
+                                rqService: 'dsMovie:searchMovies',
+                                ipiMaxRecords: 50
+                            }
                         }
                     },
                     schema: {
                         data: "rqResponse.dsMovie.ttMovie"
                     }
                 }),
+*/
                 title: '',
                 year: '',
                 yearFrom: '',
@@ -67,15 +75,50 @@
                     return this.get("title").trim() + " (" + this.get("year") + ")";
                 },
                 // Functions
-                criteria: function () {
-                    console.log("Get search criteria pop-up window");
-
-                },
                 searchMovies: function () {
                     console.log("Movie Title:", this.browse.get("title"),
                                 "\nYear:", this.browse.get("yearFrom"), "-", this.browse.get("yearTo"),
                                 "\nType:", this.browse.get("type"));
                     $("#criteria").data("kendoMobileModalView").close();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: 'http://trn.coretech.mip.co.za/cgi-bin/wspd_cgi.sh/WService=wsb_000trn/rest.w',
+                        data: {
+                            rqAuthentication: 'user:mip|mip',
+                            rqDataMode: 'var/json',
+                            rqService: 'dsMovie:searchMovies',
+                            ipiMaxRecords: 50
+                        },
+                        success: function (data) {
+                            console.log(data.rqResponse.rqErrorMessage);
+                            if (data.rqResponse.rqErrorMessage) {
+                                alert("ErrorMessage:", data.rqResponse.rqErrorMessage);
+                            } else {
+                                localStorage.setItem("localstorageMovies", JSON.stringify(response.rqResponse.dsMovie.ttMovie));
+                                
+                                var date   = new Date();
+                                var day    = date.getDate();
+                                var month  = date.getMonth();
+                                var year   = date.getFullYear();
+                                var hour   = date.getHours();
+                                var minute = date.getMinutes();
+                                var currentDateTime = year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hour.toString() + ":" + minute.toString();
+                                localStorage.setItem("lastUpdate", currentDateTime);
+                                
+
+                                APP.models.browse.data.fetch(function () {
+                                    APP.models.browse.data.data(response.rqResponse.dsMovie.ttMovie);
+                                });
+
+
+                            }
+                        },
+                        error: function (data, error, code) {
+                            alert('Ajax Error:', data, error, code);
+                        }
+                    });
+                    
                 },
                 close: function() {
       				$("#criteria").data("kendoMobileModalView").close();
@@ -97,7 +140,9 @@
 
                     // Filter the DataSource bt ISBN to get the selected record
                     movieData.filter({ field: "dMovieObj", operator: "eq", value: obj });
+                    
                     window.APP.models.currentMovie = movieData.view()[0];
+                    
                     console.log("Current Movie:", window.APP.models.currentMovie);
                 },
                 hide: function() {
