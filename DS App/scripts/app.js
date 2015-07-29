@@ -39,6 +39,21 @@
             },
             
             currentMovie: {},
+			
+/*			dsMovie: {
+				searchMovies {
+					rqAuthentication: '',
+					rqDataMode: 'var/json',
+					rqService: 'dsMovie:searchMovies',
+					ipiMaxRecords: 100,
+				
+					clear: function() {
+						this.rqAuthentication = window.APP.models.user.get('session');
+						console.log('Cleared the dsMovie.searchMovies request:\n',);
+					}
+				}
+			},
+*/
 
             // Models per page
             home: {
@@ -47,24 +62,6 @@
             
             browse: {
                 data: new kendo.data.DataSource({}),
-/*                  transport: {
-                        read: {
-                            url: "http://trn.coretech.mip.co.za/cgi-bin/wspd_cgi.sh/WService=wsb_000trn/rest.w",
-                            type: "get",
-                            dataType: "json",
-                            data: {
-                                rqAuthentication: 'user:mip|mip',
-                                rqDataMode: 'var/jason',
-                                rqService: 'dsMovie:searchMovies',
-                                ipiMaxRecords: 50
-                            }
-                        }
-                    },
-                    schema: {
-                        data: "rqResponse.dsMovie.ttMovie"
-                    }
-                }),
-*/
                 title: '',
                 year: '',
                 yearFrom: '',
@@ -76,47 +73,43 @@
                 },
                 // Functions
                 searchMovies: function () {
-                    console.log("Movie Title:", this.browse.get("title"),
-                                "\nYear:", this.browse.get("yearFrom"), "-", this.browse.get("yearTo"),
-                                "\nType:", this.browse.get("type"));
                     $("#criteria").data("kendoMobileModalView").close();
+					
+					// dsMovie.searchMovies.clear();
 
                     $.ajax({
                         type: 'GET',
                         url: 'http://trn.coretech.mip.co.za/cgi-bin/wspd_cgi.sh/WService=wsb_000trn/rest.w',
                         data: {
-                            rqAuthentication: 'user:mip|mip',
+                            rqAuthentication: window.APP.models.user.get('session'),
                             rqDataMode: 'var/json',
                             rqService: 'dsMovie:searchMovies',
+							ipcMovieTitle: this.browse.get('title'),
+							ipiMovieYearFrom: this.browse.get('yearFrom'),
+							ipiMovieYearTo: this.browse.get('yearTo'),
+							ipcMovieTypeKey: this.browse.get('type'),
+							ipcSearchMethod: 'begins',
                             ipiMaxRecords: 50
                         },
-                        success: function (data) {
-                            console.log(data.rqResponse.rqErrorMessage);
-                            if (data.rqResponse.rqErrorMessage) {
-                                alert("ErrorMessage:", data.rqResponse.rqErrorMessage);
-                            } else {
-                                localStorage.setItem("localstorageMovies", JSON.stringify(response.rqResponse.dsMovie.ttMovie));
-                                
-                                var date   = new Date();
-                                var day    = date.getDate();
-                                var month  = date.getMonth();
-                                var year   = date.getFullYear();
-                                var hour   = date.getHours();
-                                var minute = date.getMinutes();
-                                var currentDateTime = year.toString() + "/" + month.toString() + "/" + day.toString() + "  " + hour.toString() + ":" + minute.toString();
-                                localStorage.setItem("lastUpdate", currentDateTime);
-                                
+                        success: function (pData) {
 
-                                APP.models.browse.data.fetch(function () {
-                                    APP.models.browse.data.data(response.rqResponse.dsMovie.ttMovie);
-                                });
+							var DataSource   = window.APP.models.browse.data;
+							var CurrentMovie = window.APP.models.currentMovie;
 
+							console.log('The whole data object returned from successful AJAX call: \n', pData);
 
-                            }
-                        },
+							// First clear the data, then assign it to the response
+							DataSource.fetch(function () { DataSource.data([]); });
+							DataSource.fetch(function () {
+								DataSource.data(pData.rqResponse.dsMovie.ttMovie);
+								console.log("DataSource:", DataSource);
+							});
+
+                        },  // success
+
                         error: function (data, error, code) {
                             alert('Ajax Error:', data, error, code);
-                        }
+                        }  // error
                     });
                     
                 },
