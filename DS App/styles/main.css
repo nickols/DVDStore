@@ -19,10 +19,13 @@
     content: "\e319";
 }
 
-.applogo {
+.applogo, .loginlogo {
     max-width: 100%;
     height: auto;
     text-align: center;
+}
+.loginlogo {
+	width: 75%;
 }
 .promotion {
     width: 100%;
