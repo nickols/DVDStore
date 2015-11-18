@@ -1,4 +1,25 @@
+<style>.appDrawer { display: none; }</style>
+
 <div id="login" data-role="view" data-title="Login" data-model="APP.models">
-    <h1>Login</h1>
+	<h1>Login</h1>
+	
+	<div align="center">
+		<img class="loginlogo" src="image/loginlogo.png" />
+	</div>	
+	
+	<ul data-role="listview" data-style="inset">
+		<li>
+			<label for="username">Username</label>
+			<input id="username" type="text" class="k-textbox" data-bind="value: login.userName" placeholder="Username">
+		</li>
+		<li>
+			<label for="password">Password</label>
+			<input id="password" type="password" class="k-textbox" data-bind="value: login.password" placeholder="Password">
+		</li>
+	</ul>
+	
+	<div class="wide">
+		<button class="wide" data-role="button" class="login-button"   data-bind="click: login.login">Log In</button>
+	</div>
     
 </div>
