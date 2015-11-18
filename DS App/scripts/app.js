@@ -10,12 +10,12 @@
         models: {
             // DataModel for the whole application
             user: {
-                firstname: 'Corne',
-                lastname: 'Nickols',
-                email: 'cornen@mip.co.za',
-                birthday: '04/08/1979',
-                session: 'user:mip|mip',
-                lastLogin: '15/07/2015 12:50',
+                firstname: '',
+                lastname: '',
+                email: '',
+                birthday: '',
+                session: '',
+                lastLogin: '',
                 // Calculated fields
                 name: function () {
                     return (this.get("firstname").trim() + " " + this.get("lastname").trim()).trim();
@@ -23,12 +23,12 @@
             },
             
             account: {
-                accountNumber: 'NIC097',
-                fromDate: '04/03/2006',
-				status: 'Active',                
-                points: 420,
-                rentalsPoints: 10,
-                rentalsCash: 7,
+                accountNumber: '',
+                fromDate: '',
+				status: '',
+                points: 0,
+                rentalsPoints: 0,
+                rentalsCash: 0,
                 // Calculated fields
                 pointsText: function () {
                     return this.get("points") + " points";
@@ -40,8 +40,8 @@
             
             currentMovie: {},
 			
-/*			dsMovie: {
-				searchMovies {
+			dsMovie: {
+				searchMovies: {
 					rqAuthentication: '',
 					rqDataMode: 'var/json',
 					rqService: 'dsMovie:searchMovies',
@@ -49,15 +49,15 @@
 				
 					clear: function() {
 						this.rqAuthentication = window.APP.models.user.get('session');
-						console.log('Cleared the dsMovie.searchMovies request:\n',);
+						// console.log('Cleared the dsMovie.searchMovies request:\n');
 					}
 				}
 			},
-*/
+
 
             // Models per page
             home: {
-                title: 'MIP DVD Store'
+                title: 'MIP DVDStore'
             },
             
             browse: {
@@ -89,29 +89,25 @@
 							ipiMovieYearTo: this.browse.get('yearTo'),
 							ipcMovieTypeKey: this.browse.get('type'),
 							ipcSearchMethod: 'begins',
-                            ipiMaxRecords: 50
+                            ipiMaxRecords: 100
                         },
                         success: function (pData) {
-
-							var DataSource   = window.APP.models.browse.data;
-							var CurrentMovie = window.APP.models.currentMovie;
-
-							console.log('The whole data object returned from successful AJAX call: \n', pData);
+							var DataSource = window.APP.models.browse.data;
+							// console.log('The whole data object returned from successful AJAX call: \n', pData);
 
 							// First clear the data, then assign it to the response
 							DataSource.fetch(function () { DataSource.data([]); });
 							DataSource.fetch(function () {
 								DataSource.data(pData.rqResponse.dsMovie.ttMovie);
-								console.log("DataSource:", DataSource);
+								// console.log("DataSource:", DataSource);
 							});
-
                         },  // success
 
                         error: function (data, error, code) {
                             alert('Ajax Error:', data, error, code);
                         }  // error
                     });
-                    
+
                 },
                 close: function() {
       				$("#criteria").data("kendoMobileModalView").close();
@@ -123,7 +119,9 @@
 
             detail: {
                 title: 'Movie Details',
-
+				session: function() {
+				  return window.APP.models.user.get('session');
+				},
                 show: function() {
                     // Pull the movie obj number from the query string
                     var movieData =  window.APP.models.browse.data;
@@ -135,8 +133,7 @@
                     movieData.filter({ field: "dMovieObj", operator: "eq", value: obj });
                     
                     window.APP.models.currentMovie = movieData.view()[0];
-                    
-                    console.log("Current Movie:", window.APP.models.currentMovie);
+                    // console.log("Current Movie:", window.APP.models.currentMovie);
                 },
                 hide: function() {
                     // When the user navigates away from the page, remove the filter
@@ -153,7 +150,76 @@
             },
 
             login: {
-                title: 'Login'
+                title: 'Login',
+				userName: '',
+				password: '',
+				
+				show: function() {
+					this.login.password = '';
+				},
+
+
+				login: function() {
+					var Response;
+					var UserData = window.APP.models.user;
+
+                    $.ajax({
+                        type: 'GET',
+                        url: 'http://trn.coretech.mip.co.za/cgi-bin/wspd_cgi.sh/WService=wsb_000trn/rest.w',
+                        data: {
+                            rqAuthentication: 'user:' + this.login.get('userName') + '|' + this.login.get('password'),
+                            rqDataMode: 'var/json',
+                            rqService: 'miSession:establishSession'
+                        },
+
+                        success: function (pData) {
+							Response = pData.rqResponse.rqAuthentication.split(':');
+							UserData.session = (Response[0] == 'Session' ? Response[1] : '');
+                        },  // success
+
+                        error: function (data, error, code) {
+                            alert('Ajax Error:', data, error, code);
+                        }  // error
+                    });  // $.ajax()
+
+					
+					// Get user details and populate User and Account objects
+					$.ajax({
+						type: 'GET',
+						url: 'http://trn.coretech.mip.co.za/cgi-bin/wspd_cgi.sh/WService=wsb_000trn/rest.w',
+						data: {
+							rqAuthentication: Response,
+							rqDataMode: 'var/json',
+							rqService: 'miUser:getUserDetails',
+							ipcUserMnemonic: "mimus",
+							ipcUserCode: this.login.get('userName')
+						},
+						success: function (pData) {
+							// Get user details and populate User and Account objects
+							Response = pData.rqResponse;
+							var Fullname = Response.opcUserName.split(' ');
+
+							console.log("This", typeof this, this);
+							console.log("Response:\n", Response);
+							console.log(this.login.get('userName'));
+
+							UserData.firstname = Fullname[0];
+							UserData.lastname  = Fullname[1];
+							UserData.email     = Response.opcUserEmail;
+							UserData.lastLogin = new Date();
+							UserData.lastLogin = UserData.lastLogin.toLocaleString();
+
+							console.log("User:\n", firstname, lastname, email, lastLogin);
+						},  // success
+						error: function (data, error, code) {
+							alert('Ajax Error!');
+							console.log('Ajax Error:\n', data, '\n', error, '\n', code);
+						}  // error
+
+					});  // $.ajax()
+					
+					app.navigate("views/home.html");
+				}   // login
             },
 
             accounts: {
@@ -188,14 +254,7 @@
 
         logout: function(pButton) {
             if (pButton > 1) return;
-            
-            var d = new Date();
-            var n = d.toLocaleString();
-            console.log("DateString:",n);
-
             window.APP.models.user.session = '';
-            window.APP.models.user.lastLogin = n;
-
             app.navigate("views/login.html");
         }
         
